@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trivapp2-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trivapp2
+  template:
+    metadata:
+      labels:
+        app: trivapp2
+    spec:
+      containers:
+      - name: app2
+        image: asia-south1-docker.pkg.dev/triv-case/triv-repo/trivapp2:latest
+        ports:
+        - containerPort: 8080
