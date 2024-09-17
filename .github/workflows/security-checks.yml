@@ -51,9 +51,6 @@ jobs:
       - name: Build an image from Dockerfile
         run: |
           docker build -t ${{ github.sha }} .
-          ls
-          docker images
-
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
@@ -61,7 +58,6 @@ jobs:
           image-ref: '${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
-          severity: 'HIGH,CRITICAL'
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
