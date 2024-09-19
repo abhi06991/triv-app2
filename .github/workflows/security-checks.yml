@@ -73,8 +73,13 @@ jobs:
           image-ref: '${{ github.sha }}'
           format: 'sarif'
           output: 'trivy-results.sarif'
+          exit-code: '1'
+          severity: 'CRITICAL,HIGH'
+          vuln-type: 'os,library'
+
 
       - name: Upload Artifact
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: trivy-scan-results
