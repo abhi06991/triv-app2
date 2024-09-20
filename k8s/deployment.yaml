@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: trivapp2-deployment
+  name: trivapp1-deployment
   namespace: trivapp-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: trivapp2
+      app: trivapp1
   template:
     metadata:
       labels:
-        app: trivapp2
+        app: trivapp1
     spec:
       securityContext:
         fsGroup: 2000
@@ -19,11 +19,27 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
       containers:
-      - image: asia-south1-docker.pkg.dev/triv-case/triv-repo/trivapp2:latest
-        name: app2
+      - image: asia-south1-docker.pkg.dev/triv-case/triv-repo/trivapp1:latest
+        name: app1
         securityContext:
+          seccompProfile:
+            type: RuntimeDefault
           readOnlyRootFilesystem: true
           allowPrivilegeEscalation: false
+          appArmorProfile:
+            type: RuntimeDefault
+          capabilities:
+            drop:
+            - NET_RAW
+            - SYS_ADMIN
+            - SYS_MODULE
+            - SYS_TIME
+            - SYS_BOOT
+            - SYS_RESOURCE
+            - SYS_PTRACE
+            - CHOWN
+            - FSETID
+            - KILL
         ports:
         - containerPort: 8080
         resources:
